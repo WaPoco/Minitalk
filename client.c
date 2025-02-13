@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:30:29 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/02/12 19:34:15 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/02/13 21:57:59 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,19 @@ static void	send_message(pid_t pid, int digit)
 	i = 0;
 	while (i < 8)
 	{
-		g_received = 0;
 		if ((digit >> i & 1) == 0)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		if (g_received == 0)
-			pause();
+		while (1)
+		{
+			if (g_received == 1)
+			{
+				g_received = 0;
+				break ;
+			}
+			usleep(100);
+		}
 		i++;
 	}
 }
