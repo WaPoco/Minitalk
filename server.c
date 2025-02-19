@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:19:48 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/02/13 21:53:32 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/02/19 22:18:13 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*re_alloc(char *str, int new_size)
 	i = 0;
 	len = ft_strlen(str);
 	new_str = malloc(new_size);
+	if (!new_str)
+		return (NULL);
 	while (i < len)
 	{
 		new_str[i] = str[i];
@@ -90,7 +92,11 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	if (k == 8)
 		end_of_message(&letter, &k);
 	if (client_pid != 0)
-		kill(client_pid, SIGUSR1);
+		if (kill(client_pid, SIGUSR1) == -1)
+		{
+			printf("Error sending signal\n");
+			return ;
+		}
 }
 
 int	main(void)
@@ -101,12 +107,14 @@ int	main(void)
 	action.sa_flags = SA_SIGINFO;
 	sigemptyset(&action.sa_mask);
 	action.sa_sigaction = signal_handler;
-	sigaction(SIGUSR1, &action, NULL);
-	sigaction(SIGUSR2, &action, NULL);
+	if (sigaction(SIGUSR1, &action, NULL) == -1 || sigaction(SIGUSR2, &action, NULL) == -1)
+	{
+		printf("Error receiving signal\n");
+		return (0);
+	}
 	printf("%d\n", getpid());
 	printf("Process started. PID: %d\n", getpid());
 	while (1)
-	{
-	}
+		pause();
 	return (0);
 }
