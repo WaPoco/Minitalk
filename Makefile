@@ -28,6 +28,8 @@ $(CLIENT): $(OBJ_CLIENT)
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+bonus: all
+
 clean:
 	rm $(OBJ_CLIENT) $(OBJ_SERVER)
 
@@ -38,4 +40,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re Libft ft_printf
+.PHONY: all clean fclean re Libft ft_printf bonus
