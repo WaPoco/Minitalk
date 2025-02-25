@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:30:29 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/02/13 21:57:59 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:22:11 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@
 
 int	g_received;
 
+void	error(pid_t pid, int signal)
+{
+	if (kill(pid, signal) == -1)
+	{
+		printf("Error sending signal to client\n");
+		exit(1);
+	}
+}
+
 void	signal_received(int t)
 {
 	(void)t;
@@ -26,14 +35,17 @@ void	signal_received(int t)
 static void	send_message(pid_t pid, int digit)
 {
 	int	i;
+	int	signal;
 
+	signal = 0;
 	i = 0;
 	while (i < 8)
 	{
 		if ((digit >> i & 1) == 0)
-			kill(pid, SIGUSR1);
+			signal = 10;
 		else
-			kill(pid, SIGUSR2);
+			signal = 12;
+		error(pid, signal);
 		while (1)
 		{
 			if (g_received == 1)

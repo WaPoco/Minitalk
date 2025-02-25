@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:19:48 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/02/19 22:18:13 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:16:49 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ char	*re_alloc(char *str, int new_size)
 	len = ft_strlen(str);
 	new_str = malloc(new_size);
 	if (!new_str)
-		return (NULL);
+	{
+		if (g_text != NULL)
+			free(g_text);
+		ft_printf("Error allocating memory with malloc!");
+		exit(1);
+	}
 	while (i < len)
 	{
 		new_str[i] = str[i];
@@ -41,15 +46,12 @@ char	*re_alloc(char *str, int new_size)
 
 void	resize(int c_letter, int *k, int *letter, int *text_len)
 {
-	char	*new_text;
-
 	if (c_letter >= *text_len)
 	{
 		if (*text_len == 0)
 			(*text_len)++;
-		new_text = re_alloc(g_text, 2 * (*text_len));
+		g_text = re_alloc(g_text, 2 * (*text_len));
 		(*text_len) *= 2;
-		g_text = new_text;
 	}
 	g_text[c_letter - 1] = (char)(*letter);
 	*letter = 0;
@@ -92,11 +94,15 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	if (k == 8)
 		end_of_message(&letter, &k);
 	if (client_pid != 0)
+	{
 		if (kill(client_pid, SIGUSR1) == -1)
 		{
-			printf("Error sending signal\n");
-			return ;
+			printf("Error sending acknowledgment signal\n");
+			if (g_text != NULL)
+				free(g_text);
+			exit(1);
 		}
+	}
 }
 
 int	main(void)
@@ -107,13 +113,15 @@ int	main(void)
 	action.sa_flags = SA_SIGINFO;
 	sigemptyset(&action.sa_mask);
 	action.sa_sigaction = signal_handler;
-	if (sigaction(SIGUSR1, &action, NULL) == -1 || sigaction(SIGUSR2, &action, NULL) == -1)
+	if (sigaction(SIGUSR1, &action, NULL) == -1
+		|| sigaction(SIGUSR2, &action, NULL) == -1)
 	{
-		printf("Error receiving signal\n");
-		return (0);
+		printf("Error receiving signal from server\n");
+		if (g_text != NULL)
+			free(g_text);
+		exit(1);
 	}
-	printf("%d\n", getpid());
-	printf("Process started. PID: %d\n", getpid());
+	printf("Server started. PID: %d\n", getpid());
 	while (1)
 		pause();
 	return (0);
