@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:43:13 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/02/25 13:18:38 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:27:08 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*re_alloc(char *str, int new_size)
 	{
 		if (g_text != NULL)
 			free(g_text);
-		ft_printf("Error allocating memory with malloc!");
+		ft_printf("Error allocating memory with malloc\n");
 		exit(1);
 	}
 	while (i < len)

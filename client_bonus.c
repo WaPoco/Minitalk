@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 11:42:31 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/02/25 18:52:07 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:44:51 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,20 @@
 #include "ft_printf.h"
 
 int	g_received;
+
+void	error_args_pid(int args0, char **args, int pid)
+{
+	if (args0 - 1 != 2 || !args[1] || !args[2])
+	{
+		ft_printf("Error arguments\n");
+		exit(1);
+	}
+	if (pid == 0)
+	{
+		ft_printf("Error reading pid\n");
+		exit(0);
+	}
+}
 
 void	error(pid_t pid, int signal)
 {
@@ -42,41 +56,40 @@ static void	send_message(pid_t pid, int digit)
 	while (i < 8)
 	{
 		if ((digit >> i & 1) == 0)
-			signal = 10;
+			signal = SIGUSR1;
 		else
-			signal = 12;
+			signal = SIGUSR2;
 		error(pid, signal);
-		while (1)
-		{
-			if (g_received == 1)
-			{
-				g_received = 0;
-				break ;
-			}
+		while (!g_received)
 			usleep(100);
-		}
+		g_received = 0;
 		i++;
 	}
 }
 
 int	main(int args0, char **args)
 {
-	int		i;
-	int		len;
-	pid_t	pid;
-	char	*message;
+	int						i;
+	int						len;
+	pid_t					pid;
+	char					*message;
+	struct sigaction		action;
 
-	if (args0 - 1 != 2 || !args[1] || !args[2])
-	{
-		ft_printf("Error arguments\n");
-		return (0);
-	}
-	pid = ft_atoi(args[1]);
+	if (args[1] != NULL)
+		pid = ft_atoi(args[1]);
+	error_args_pid(args0, args, pid);
 	message = args[2];
 	len = ft_strlen(message);
 	i = 0;
 	g_received = 0;
-	signal(SIGUSR1, signal_received);
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = 0;
+	action.sa_handler = signal_received;
+	if (sigaction(SIGUSR1, &action, NULL) == -1)
+	{
+		ft_printf("Error receiving aknowledgment signal\n");
+		exit(1);
+	}
 	while (i < len)
 		send_message(pid, message[i++]);
 	send_message(pid, 0);
