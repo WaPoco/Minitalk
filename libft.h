@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 13:38:56 by vpogorel          #+#    #+#             */
-/*   Updated: 2024/11/24 21:49:07 by vpogorel         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:14:41 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 # include <unistd.h>
 # include <limits.h>
 # include <stdint.h>
-# include <stdio.h>
 
-size_t			ft_strlen(char *str);
+size_t			ft_strlen(const char *str);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
@@ -30,6 +29,7 @@ int				ft_tolower(int c);
 void			*ft_memset(void *s, int c, size_t n);
 void			ft_bzero(void *s, size_t n);
 char			*ft_strchr(const char *s, int c);
+void			ft_striteri(char *s, void (*f)(unsigned int, char*));
 char			*ft_strrchr(const char *s, int c);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 void			*ft_memchr(const void *s, int c, size_t n);
@@ -59,6 +59,7 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
 t_list			*ft_lstnew(void *content);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 int				ft_lstsize(t_list *lst);

@@ -1,2 +1,1 @@
 # Minitalk
-This project demonstrates the use of Unix signals as a communication medium between two programs—the client and the server. By using signals (SIGUSR1 for 0 and SIGUSR2 for 1), the client encodes a message and sends it bit by bit to the server. When the server receives a bit, it sends back a handshake (acknowledgment) signal to the client to guarantee no data loss. Minitalk showcases a simple and robust inter-process data transfer through its handshake mechanism.
