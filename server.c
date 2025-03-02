@@ -106,8 +106,6 @@ int	main(void)
 	ft_printf("%d\n", getpid());
 	ft_printf("Process started. PID: %d\n", getpid());
 	while (1)
-	{
 		pause();
-	}
 	return (0);
 }
