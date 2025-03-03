@@ -27,7 +27,7 @@ void	error_args_pid(int args0, char **args, int pid)
 	if (pid == 0)
 	{
 		ft_printf("Error reading pid\n");
-		exit(0);
+		exit(1);
 	}
 }
 
