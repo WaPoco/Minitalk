@@ -33,6 +33,8 @@ clean:
 
 fclean: clean
 	rm $(SERVER) $(CLIENT)
+	make -C ./Libft fclean
+	make -C ./ft_printf fclean
 
 re: fclean all Libft ft_printf
 
