@@ -75,7 +75,8 @@ int	main(int args0, char **args)
 	char					*message;
 	struct sigaction		action;
 
-	pid = ft_atoi(args[1]);
+	if (args[1] != NULL)
+		pid = ft_atoi(args[1]);
 	error_args_pid(args0, args, pid);
 	message = args[2];
 	len = ft_strlen(message);
