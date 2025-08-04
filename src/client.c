@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:30:29 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/02/26 10:40:34 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/03/04 11:33:18 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ int	main(int args0, char **args)
 	char					*message;
 	struct sigaction		action;
 
-	pid = ft_atoi(args[1]);
+	if (args[1] != NULL)
+		pid = ft_atoi(args[1]);
 	error_args_pid(args0, args, pid);
 	message = args[2];
 	len = ft_strlen(message);
