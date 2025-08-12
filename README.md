@@ -36,5 +36,30 @@ A **handshake mechanism** ensures that each bit is acknowledged before the next 
 - `libft/` – (If applicable) Custom implementations of common C functions.
 - `Makefile` – Builds the client and server binaries.
 
-🚀 Usage
+## ⚙️ Installation
 
+1.Clone the repository
+
+`git clone https://github.com/yourusername/minitalk.git
+cd minitalk`
+
+2.Compile both server and client
+
+`make`
+
+## 🚀 Usage
+
+1. Start the server (prints its PID)
+`./server`
+
+2. Send a message from the client (use the server PID)
+`./client <server_pid> "Your message here"`
+
+Example session
+$ ./server
+Server PID: 4242
+# In another terminal:
+$ ./client 4242 "Hello, World!"
+
+# Unicode example
+./client 4242 "こんにちは 👋"
