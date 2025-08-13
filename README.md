@@ -40,7 +40,7 @@ A **handshake mechanism** ensures that each bit is acknowledged before the next 
 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/minitalk.git
+git clone https://github.com/WaPoco/Minitalk
 ```
 Change directories
 
