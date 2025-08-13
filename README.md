@@ -1,12 +1,11 @@
 # 🛰️ Minitalk
 
-**Minitalk** demonstrates inter-process communication between a **client** and a **server** using **Unix signals**.  
-Instead of sockets or shared memory, this project sends data bit-by-bit using:
+**Minitalk** demonstrates how two programms — a **client** and a **server** — can communicate using **Unix signals** as a data transmission medium. The client sends messages bit-by-bit using:
 
 - **SIGUSR1** → represents binary `0`
 - **SIGUSR2** → represents binary `1`
 
-A **handshake mechanism** ensures that each bit is acknowledged before the next is sent, guaranteeing error-free transmission — even for **Unicode** characters.
+A **handshake mechanism** ensures that each bit is acknowledged before the next is sent, guaranteeing error-free transmission — even for **Unicode** characters. This handshake mechanism makes Minitalk a simple but robust example of inter-process communication.
 
 ---
 
@@ -38,14 +37,17 @@ A **handshake mechanism** ensures that each bit is acknowledged before the next 
 
 ## ⚙️ Installation
 
-1.Clone the repository
+1. Clone the repository
 
-`git clone https://github.com/yourusername/minitalk.git
-cd minitalk`
+```git clone https://github.com/yourusername/minitalk.git```
 
-2.Compile both server and client
+2. Change directories
 
-`make`
+```cd minitalk```
+
+3. Compile both server and client
+
+```make```
 
 ## 🚀 Usage
 
