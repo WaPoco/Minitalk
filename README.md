@@ -37,15 +37,15 @@ A **handshake mechanism** ensures that each bit is acknowledged before the next 
 
 ## ⚙️ Installation
 
-1. Clone the repository
+Clone the repository
 
 ```git clone https://github.com/yourusername/minitalk.git```
 
-2. Change directories
+Change directories
 
 ```cd minitalk```
 
-3. Compile both server and client
+Compile both server and client
 
 ```make```
 
