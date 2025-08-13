@@ -72,3 +72,12 @@ Send a message from the client (use the server PID)
 ```bash
 ./client <server_pid> "Your message here"
 ```
+## 🛠 How It Works
+
+1.Client converts each character to bits.
+
+2.Sends SIGUSR1 for 0 and SIGUSR2 for 1.
+
+3.Server collects bits into bytes and writes characters.
+
+4.Server acknowledges each received bit; client proceeds only after ack.
